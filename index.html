@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07070b">
+<title>For Hunmili — A Birthday Note</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap');
+:root{--bg:#07070b;--panel:#101015;--panel2:#15151c;--text:#f8f5f7;--muted:#aaa4ad;--pink:#ef6f9b;--gold:#e9cf91;--line:rgba(255,255,255,.11)}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:"DM Sans",sans-serif;overflow-x:hidden}
+button{font:inherit}.grain{position:fixed;inset:0;z-index:50;pointer-events:none;opacity:.025;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+canvas{position:fixed;inset:0;z-index:-3}.glow{position:fixed;width:420px;height:420px;border-radius:50%;filter:blur(120px);opacity:.09;pointer-events:none;z-index:-2}.g1{left:-280px;top:10%;background:#e94d86}.g2{right:-280px;bottom:10%;background:#7657c9}
+
+#intro{position:fixed;inset:0;z-index:100;background:#07070b;display:grid;place-items:center;text-align:center;transition:1s}
+.intro{width:min(780px,90%)}.micro{font-size:10px;letter-spacing:5px;text-transform:uppercase;color:#a9a2ab}
+.intro h1{font:600 clamp(65px,13vw,140px)/.76 "Cormorant Garamond";margin:28px 0}.intro h1 span{color:var(--gold)}
+.intro p{max-width:570px;margin:auto;color:var(--muted);line-height:1.9}
+.btn{border:1px solid rgba(255,255,255,.15);border-radius:999px;padding:13px 21px;background:#f7f4f6;color:#111;font-weight:700;cursor:pointer;transition:.25s}.btn:hover{transform:translateY(-3px);box-shadow:0 15px 40px #fff2}.btn.dark{background:#ffffff09;color:#fff}
+.enter{margin-top:30px}
+
+main{opacity:0;transition:1.2s}.on{opacity:1}
+.hero{min-height:100vh;width:min(1180px,92%);margin:auto;display:grid;align-items:center;padding:100px 0}
+.heroGrid{display:grid;grid-template-columns:1fr .82fr;gap:80px;align-items:center}
+.eyebrow{font-size:10px;letter-spacing:4px;text-transform:uppercase;color:var(--pink)}
+.hero h2{font:600 clamp(70px,9vw,132px)/.72 "Cormorant Garamond";margin:23px 0}.hero h2 span{color:var(--gold)}
+.heroCopy{max-width:610px;color:var(--muted);line-height:1.9;font-size:16px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+.photoBox{position:relative;width:min(410px,80vw);margin:auto}.photoBox:before{content:"";position:absolute;inset:-16px;border:1px solid #fff2;transform:rotate(-5deg)}.photoBox img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;filter:saturate(.9)}.caption{position:absolute;bottom:-25px;left:-20px;background:#111118ee;border:1px solid var(--line);padding:13px 18px;color:#d8d0d6;font:500 19px "Cormorant Garamond";transform:rotate(-2deg)}
+
+section{width:min(1040px,92%);margin:auto;padding:115px 0}.center{text-align:center}.title{font:600 clamp(48px,7vw,82px)/.88 "Cormorant Garamond";margin:17px 0}.sub{max-width:670px;margin:auto;color:var(--muted);line-height:1.9}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:48px}.card{padding:34px;border:1px solid var(--line);background:linear-gradient(145deg,#111117,#0c0c11);min-height:250px}.cardNum{font:600 46px "Cormorant Garamond";color:var(--gold)}.card h3{font:500 29px "Cormorant Garamond";margin:15px 0 8px}.card p{color:var(--muted);line-height:1.8}
+
+.letter{max-width:830px;margin:48px auto 0;padding:54px;border:1px solid var(--line);background:#0d0d12;box-shadow:0 35px 100px #0007}.letter p{font:19px/2 "Cormorant Garamond";color:#e8e1e6;margin:16px 0}.letter .accent{font:600 clamp(31px,5vw,56px)/1.02 "Cormorant Garamond";color:var(--pink);margin:28px 0}
+.gallery{display:grid;grid-template-columns:1.25fr .75fr .75fr;grid-auto-rows:230px;gap:11px;margin-top:48px}.pic{overflow:hidden;background:#121218;border:1px solid var(--line)}.pic:first-child{grid-row:span 2}.pic img{width:100%;height:100%;object-fit:cover;transition:.7s}.pic:hover img{transform:scale(1.05)}
+
+.note{max-width:780px;margin:50px auto 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:55px 20px;text-align:center}.note h3{font:600 clamp(40px,6vw,70px) "Cormorant Garamond";margin:17px 0}.note p{max-width:620px;margin:auto;color:var(--muted);line-height:1.9}.hiddenMsg{max-height:0;overflow:hidden;opacity:0;transition:.8s}.note.open .hiddenMsg{max-height:400px;opacity:1;margin-top:28px}.tiny{margin-top:24px;font-size:11px;color:#817b84}
+
+.final{min-height:82vh;display:grid;place-items:center;text-align:center}.final h2{font:600 clamp(75px,13vw,155px)/.72 "Cormorant Garamond"}.final h2 span{color:var(--gold)}.sign{color:var(--muted);line-height:1.9;margin-top:32px}footer{text-align:center;color:#68636b;font-size:10px;letter-spacing:2px;padding:30px}
+
+.reveal{opacity:0;transform:translateY(30px);transition:.9s}.reveal.show{opacity:1;transform:none}
+.heart{position:fixed;z-index:80;pointer-events:none;animation:float 3s forwards}@keyframes float{to{transform:translate(var(--x),-105vh) rotate(35deg);opacity:0}}
+#toast{position:fixed;left:50%;bottom:25px;z-index:90;transform:translate(-50%,20px);opacity:0;background:#fff;color:#111;padding:11px 17px;border-radius:999px;font-size:12px;font-weight:700;transition:.3s}#toast.show{opacity:1;transform:translate(-50%,0)}
+
+@media(max-width:800px){.heroGrid,.grid{grid-template-columns:1fr}.hero{text-align:center}.heroCopy{margin:auto}.actions{justify-content:center}.photoBox{order:-1}.photoBox{width:min(340px,80vw)}.letter{padding:30px}.gallery{grid-template-columns:1fr 1fr;grid-auto-rows:200px}}
+@media(max-width:500px){.gallery{grid-template-columns:1fr}.gallery .pic{height:320px}.hero h2{font-size:76px}}
+</style>
+</head>
+<body>
+<div class="grain"></div><div class="glow g1"></div><div class="glow g2"></div><canvas id="stars"></canvas>
+
+<div id="intro">
+<div class="intro">
+<div class="micro">a small birthday page for one special person</div>
+<h1>For <span>Hunmili</span></h1>
+<p>I didn't want to send just a normal birthday message. So I made you a tiny place on the internet instead.</p>
+<button class="btn enter" onclick="begin()">Open your birthday note →</button>
+</div>
+</div>
+
+<main id="main">
+<section class="hero">
+<div class="heroGrid">
+<div>
+<div class="eyebrow">A birthday note</div>
+<h2>Happy<br>Birthday<br><span>Hunmili.</span></h2>
+<p class="heroCopy">We haven't met in person yet. There are still so many conversations we haven't had and so many memories we haven't made. But today doesn't need any complicated meaning. It's simply your day — and I wanted to make it a little more special.</p>
+<div class="actions"><button class="btn" onclick="scrollToId('letter')">Read the note ↓</button><button class="btn dark" onclick="sparkle()">A little magic ✦</button></div>
+</div>
+<div class="photoBox">
+<!-- KEEP YOUR EXISTING PHOTO PATH HERE -->
+<img src="hunmiliphoto.png" alt="Hunmili">
+<div class="caption">one photo • one birthday • one little surprise ♡</div>
+</div>
+</div>
+</section>
+
+<section class="reveal">
+<div class="center"><div class="eyebrow">Something honest</div><h2 class="title">No pressure. Just a birthday wish.</h2><p class="sub">I know you've had a difficult chapter recently. So this page isn't here to ask you for an answer, a promise, or anything in return.</p></div>
+<div class="grid">
+<div class="card"><div class="cardNum">01</div><h3>Take your time.</h3><p>Trust isn't something anyone should have to give quickly. You can take as much time as you need, and you never have to pretend otherwise.</p></div>
+<div class="card"><div class="cardNum">02</div><h3>Words are easy.</h3><p>Anyone can say “trust me.” I'd rather let time, consistency and the way I treat you speak for themselves.</p></div>
+<div class="card"><div class="cardNum">03</div><h3>No expectations.</h3><p>This birthday surprise isn't a hidden question. You don't owe me a relationship, an answer, or a certain feeling.</p></div>
+<div class="card"><div class="cardNum">04</div><h3>Just keep smiling.</h3><p>If this page gives you even one genuine smile today, then honestly, that's enough for me.</p></div>
+</div>
+</section>
+
+<section id="letter" class="reveal">
+<div class="center"><div class="eyebrow">From me to you</div><h2 class="title">A few words I wanted to say.</h2></div>
+<div class="letter">
+<p>Dear Hunmili,</p>
+<p>Happy Birthday. ♡</p>
+<p>I know I could have simply sent “Happy Birthday” and a few emojis, but you deserve a little more effort than that.</p>
+<p>We've never met in person, and I know there is still so much we don't know about each other. Still, somehow, you've become someone whose messages can change the mood of an ordinary day.</p>
+<p class="accent">And yes… I like you. You already know that. 😅</p>
+<p>But I also know that liking someone doesn't mean asking them to trust you immediately.</p>
+<p>If your heart needs time after what you've been through, take that time. I don't want to compete with your past, erase it, or rush you into something new. I just want to be someone who makes talking feel comfortable and being yourself feel safe.</p>
+<p>I would rather build trust slowly than ask for it quickly. I'd rather show consistency than make huge promises. And I'd rather let whatever happens between us happen naturally.</p>
+<p>Maybe someday we'll meet and laugh about how this whole thing started with messages, random conversations and birthday surprises on a screen. Maybe life takes us somewhere completely different. We don't need to decide that today.</p>
+<p>Today is simply about you.</p>
+<p>I hope this year brings you peace after difficult days, confidence when you doubt yourself, people who treat your heart gently, and countless moments that make you genuinely happy.</p>
+<p>So please enjoy your birthday. Smile a little extra. Take your favorite pictures. Listen to your favorite song. Eat something you love. And remember that you are worth celebrating — without having to prove anything to anyone.</p>
+<p>Happy Birthday, Hunmili. 🌷</p>
+<p style="color:var(--gold)">— from someone who genuinely wanted to make you smile today.</p>
+</div>
+</section>
+
+<section class="reveal">
+<div class="center"><div class="eyebrow">Your pictures</div><h2 class="title">A few moments worth keeping.</h2><p class="sub">Your existing photo paths are preserved below.</p></div>
+<div class="gallery">
+<div class="pic"><img src="memory1.png" alt=""></div>
+<div class="pic"><img src="memory2.png" alt=""></div>
+<div class="pic"><img src="memory3.png" alt=""></div>
+<div class="pic"><img src="memory4.png" alt=""></div>
+<div class="pic"><img src="memory5.png" alt=""></div>
+<div class="pic"><img src="memory6.png" alt=""></div>
+</div>
+</section>
+
+<section class="reveal">
+<div class="note" id="note">
+<div class="eyebrow">One last little thing</div>
+<h3>There is no “answer” hidden here.</h3>
+<p>I just wanted you to know that this page comes with zero pressure. You can smile, laugh at how much effort went into it, send a simple “thank you,” or say absolutely nothing. Your comfort matters more than getting a particular reaction.</p>
+<button class="btn dark" style="margin-top:25px" onclick="openNote()">Read the last line ✦</button>
+<div class="hiddenMsg">And if someday you feel comfortable enough to trust me a little more, I'll be grateful for that. Until then, let's just keep things genuine, easy and real. ♡</div>
+<div class="tiny">No promises. No pressure. Just good wishes.</div>
+</div>
+</section>
+
+<section class="final reveal">
+<div>
+<div class="eyebrow">The end of the little story</div>
+<h2>Stay<br><span>happy.</span></h2>
+<div class="sign">Happy Birthday, Hunmili ♡<br><br>May this year be kinder to you than the last,<br>and may you collect more reasons to smile than reasons to worry.</div>
+<br><button class="btn" onclick="sparkle()">One more little sparkle ✦</button>
+</div>
+</section>
+
+<footer>made specially for Hunmili • with care ♡</footer>
+</main>
+<div id="toast">✨ A little birthday magic.</div>
+
+<script>
+const intro=document.getElementById("intro"),main=document.getElementById("main");
+function begin(){intro.style.opacity="0";intro.style.visibility="hidden";main.classList.add("on");sparkle(24)}
+function scrollToId(id){document.getElementById(id).scrollIntoView({behavior:"smooth"})}
+function openNote(){document.getElementById("note").classList.toggle("open");sparkle(18)}
+function sparkle(n=48){
+ for(let i=0;i<n;i++){
+  const h=document.createElement("div");h.className="heart";h.textContent=["♡","✦","♥","·"][Math.floor(Math.random()*4)];
+  h.style.left=Math.random()*100+"vw";h.style.top=(82+Math.random()*14)+"vh";
+  h.style.color=["#ef6f9b","#e9cf91","#fff","#b999ff"][Math.floor(Math.random()*4)];
+  h.style.fontSize=(12+Math.random()*18)+"px";h.style.setProperty("--x",(Math.random()*260-130)+"px");
+  h.style.animationDuration=(2+Math.random()*2)+"s";document.body.appendChild(h);setTimeout(()=>h.remove(),4500)
+ }
+ const t=document.getElementById("toast");t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1700)
+}
+const canvas=document.getElementById("stars"),ctx=canvas.getContext("2d");let stars=[];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight;stars=Array.from({length:95},()=>({x:Math.random()*canvas.width,y:Math.random()*canvas.height,r:Math.random()*1.2+.2,p:Math.random()*7}))}
+resize();addEventListener("resize",resize);
+(function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);stars.forEach(s=>{s.p+=.01;ctx.globalAlpha=.12+.22*Math.sin(s.p);ctx.fillStyle="#fff";ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill()});requestAnimationFrame(loop)})();
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add("show")}),{threshold:.12});
+document.querySelectorAll(".reveal").forEach(e=>io.observe(e));
+</script>
+</body>
+</html>
